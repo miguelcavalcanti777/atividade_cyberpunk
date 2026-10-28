@@ -1,0 +1,31 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Meus contratos{% endblock %}
+
+{% block conteudo %}
+<h1 class="secao"><span class="kanji">任務</span> Meus contratos</h1>
+
+{% if tipo == "mercenario" %}
+  <p class="aviso">Contratos que você aceitou. Quando terminar a missão, marque como concluída.</p>
+{% elif tipo == "cliente" %}
+  <p class="aviso">Contratos que você publicou. <a href="{% url 'cyberpunk:contrato_criar' %}">Publicar um novo</a>.</p>
+{% else %}
+  <p class="aviso">Esta conta não é mercenário nem cliente. Use o painel /admin para gerenciar os dados.</p>
+{% endif %}
+
+{% if contratos %}
+  <div class="grid">
+    {% for contrato in contratos %}
+      {% include "cyberpunk/_card_contrato.html" with mostrar_acoes=True tipo=tipo %}
+    {% endfor %}
+  </div>
+{% elif tipo %}
+  <p class="vazio">
+    {% if tipo == "mercenario" %}
+      Você ainda não aceitou nenhum contrato. <a href="{% url 'cyberpunk:contrato_lista' %}">Ver contratos abertos</a>.
+    {% else %}
+      Você ainda não publicou nenhum contrato.
+    {% endif %}
+  </p>
+{% endif %}
+{% endblock %}

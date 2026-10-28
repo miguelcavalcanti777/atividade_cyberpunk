@@ -1,0 +1,38 @@
+<article class="card card-contrato status-borda-{{ contrato.status|lower }}">
+  <header class="card-topo">
+    <span class="badge status-{{ contrato.status|lower }}">{{ contrato.get_status_display }}</span>
+    <span class="kanji">契約 #{{ contrato.pk }}</span>
+  </header>
+
+  <h3 class="card-titulo"><a href="{% url 'cyberpunk:contrato_detalhe' contrato.pk %}">{{ contrato.titulo }}</a></h3>
+
+  <dl class="dados">
+    <div><dt>依頼人 Cliente</dt><dd>{{ contrato.cliente.nome }}</dd></div>
+    <div><dt>標的 Alvo</dt><dd>{{ contrato.alvo.nome }}</dd></div>
+    <div><dt>場所 Local</dt><dd>{{ contrato.local }}</dd></div>
+    <div><dt>危険 Perigo</dt><dd>{% include "cyberpunk/_perigo.html" with nivel=contrato.nivel_perigo %}</dd></div>
+    {% if contrato.mercenario %}
+      <div><dt>傭兵 Mercenário</dt><dd>{{ contrato.mercenario.codinome }}</dd></div>
+    {% endif %}
+  </dl>
+
+  <footer class="card-rodape">
+    <span class="recompensa"><small>報酬</small> ¥ {{ contrato.recompensa|floatformat:0 }}</span>
+
+    {% if mostrar_acoes %}
+      {% if tipo == "mercenario" and contrato.status == "ACEITO" %}
+        <form method="post" action="{% url 'cyberpunk:contrato_concluir' contrato.pk %}" class="form-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-pequeno">Concluir missão</button>
+        </form>
+      {% elif tipo == "cliente" and contrato.status == "ABERTO" %}
+        <form method="post" action="{% url 'cyberpunk:contrato_cancelar' contrato.pk %}" class="form-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-pequeno btn-perigo">Cancelar</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <a class="btn btn-pequeno btn-fantasma" href="{% url 'cyberpunk:contrato_detalhe' contrato.pk %}">Ver</a>
+    {% endif %}
+  </footer>
+</article>

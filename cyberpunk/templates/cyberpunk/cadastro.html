@@ -1,0 +1,39 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Cadastro{% endblock %}
+
+{% block conteudo %}
+<section class="caixa-form">
+  <h1 class="secao"><span class="kanji">登録</span> Entrar na rede</h1>
+  <p class="aviso">Escolha se você vai <b>aceitar</b> contratos (mercenário) ou <b>publicar</b> contratos (cliente). Use apenas nomes fictícios.</p>
+
+  <form method="post" novalidate id="form-cadastro">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="erro erro-geral">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for campo in form %}
+      {% include "cyberpunk/_campo.html" %}
+    {% endfor %}
+    <button type="submit" class="btn">Criar conta</button>
+  </form>
+  <p class="muted">Já tem conta? <a href="{% url 'cyberpunk:login' %}">Entrar</a></p>
+</section>
+
+<script>
+  // Mostra só os campos que fazem sentido para o tipo escolhido.
+  (function () {
+    var form = document.getElementById("form-cadastro");
+    var esp = form.querySelector('[data-campo="especialidade"]');
+    var org = form.querySelector('[data-campo="organizacao"]');
+    function atualizar() {
+      var marcado = form.querySelector('input[name="tipo"]:checked');
+      var tipo = marcado ? marcado.value : "";
+      esp.style.display = tipo === "cliente" ? "none" : "";
+      org.style.display = tipo === "mercenario" ? "none" : "";
+    }
+    form.addEventListener("change", atualizar);
+    atualizar();
+  })();
+</script>
+{% endblock %}

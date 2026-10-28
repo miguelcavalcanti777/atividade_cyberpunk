@@ -1,0 +1,29 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Alvos{% endblock %}
+
+{% block conteudo %}
+<h1 class="secao"><span class="kanji">標的</span> Alvos fictícios</h1>
+<p class="aviso">Todos os personagens abaixo são inventados para o jogo.
+  {% if user.cliente %}<a href="{% url 'cyberpunk:personagem_criar' %}">+ Criar personagem</a>{% endif %}
+</p>
+
+{% if personagens %}
+  <div class="grid">
+    {% for p in personagens %}
+      <article class="card card-personagem">
+        <header class="card-topo">
+          <span class="kanji">人物</span>
+          {% include "cyberpunk/_perigo.html" with nivel=p.periculosidade %}
+        </header>
+        <h3 class="card-titulo">{{ p.nome }}</h3>
+        {% if p.apelido %}<p class="apelido">“{{ p.apelido }}”</p>{% endif %}
+        <p>{{ p.descricao }}</p>
+        <p class="muted">Base: {{ p.distrito_base }}</p>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="vazio">Nenhum personagem cadastrado ainda.</p>
+{% endif %}
+{% endblock %}

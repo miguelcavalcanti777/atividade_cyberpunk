@@ -1,0 +1,65 @@
+{% load static %}<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Contratos{% endblock %} · NEON//CONTRATOS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+JP:wght@500;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'cyberpunk/css/cyberpunk.css' %}">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="{% url 'cyberpunk:home' %}">
+      <span class="marca-jp">ネオン契約</span>
+      <span class="marca-nome">NEON<b>//</b>CONTRATOS</span>
+    </a>
+
+    <nav class="menu">
+      <a href="{% url 'cyberpunk:contrato_lista' %}">Contratos</a>
+      <a href="{% url 'cyberpunk:personagem_lista' %}">Alvos</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'cyberpunk:meus_contratos' %}">Meus contratos</a>
+        {% if user.cliente %}
+          <a href="{% url 'cyberpunk:contrato_criar' %}" class="destaque">+ Publicar</a>
+        {% endif %}
+      {% endif %}
+    </nav>
+
+    <div class="conta">
+      {% if user.is_authenticated %}
+        <span class="quem">
+          {% if user.mercenario %}傭兵 {{ user.mercenario.codinome }}
+          {% elif user.cliente %}依頼人 {{ user.cliente.nome }}
+          {% else %}{{ user.username }}{% endif %}
+        </span>
+        <form method="post" action="{% url 'cyberpunk:logout' %}" class="form-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-pequeno btn-fantasma">Sair</button>
+        </form>
+      {% else %}
+        <a class="btn btn-pequeno btn-fantasma" href="{% url 'cyberpunk:login' %}">Entrar</a>
+        <a class="btn btn-pequeno" href="{% url 'cyberpunk:cadastro' %}">Cadastrar</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="pagina">
+    {% if messages %}
+      <ul class="mensagens">
+        {% for m in messages %}
+          <li class="msg msg-{{ m.tags }}">{{ m }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    <span>✦ Universo 100% fictício ✦</span>
+    <span>Personagens, corporações e locais são inventados para um projeto de estudo.</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Acesso negado{% endblock %}
+
+{% block conteudo %}
+<section class="hero hero-erro">
+  <p class="hero-jp">アクセス拒否</p>
+  <h1 class="glitch" data-text="403">403</h1>
+  <p class="hero-sub">Acesso negado. Seu perfil não tem permissão para esta ação.</p>
+  <div class="hero-botoes">
+    <a class="btn" href="{% url 'cyberpunk:home' %}">Voltar ao início</a>
+  </div>
+</section>
+{% endblock %}

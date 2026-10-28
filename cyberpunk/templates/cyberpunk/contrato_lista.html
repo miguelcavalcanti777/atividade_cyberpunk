@@ -1,0 +1,23 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Contratos{% endblock %}
+
+{% block conteudo %}
+<h1 class="secao"><span class="kanji">契約</span> Quadro de contratos</h1>
+
+<nav class="filtros">
+  {% for valor, rotulo in opcoes_status %}
+    <a href="?status={{ valor }}" class="filtro{% if valor == status_atual %} ativo{% endif %}">{{ rotulo }}</a>
+  {% endfor %}
+</nav>
+
+{% if contratos %}
+  <div class="grid">
+    {% for contrato in contratos %}
+      {% include "cyberpunk/_card_contrato.html" %}
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="vazio">Nenhum contrato nesta categoria. A rede está silenciosa...</p>
+{% endif %}
+{% endblock %}

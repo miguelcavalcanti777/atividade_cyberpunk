@@ -1,0 +1,21 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}{{ titulo }}{% endblock %}
+
+{% block conteudo %}
+<section class="caixa-form">
+  <h1 class="secao"><span class="kanji">入力</span> {{ titulo }}</h1>
+  {% if aviso %}<p class="aviso">{{ aviso }}</p>{% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="erro erro-geral">{{ form.non_field_errors }}</div>
+    {% endif %}
+    {% for campo in form %}
+      {% include "cyberpunk/_campo.html" %}
+    {% endfor %}
+    <button type="submit" class="btn">{{ botao|default:"Enviar" }}</button>
+  </form>
+</section>
+{% endblock %}

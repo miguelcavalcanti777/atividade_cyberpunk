@@ -1,0 +1,39 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Início{% endblock %}
+
+{% block conteudo %}
+<section class="hero">
+  <p class="hero-jp">ネオン・コントラクト</p>
+  <h1 class="glitch" data-text="NEON CONTRATOS">NEON CONTRATOS</h1>
+  <p class="hero-sub">
+    A rede onde clientes publicam trabalhos sujos e mercenários escolhem os que valem o risco.
+    Tudo aqui é ficção: corporações, alvos e distritos são inventados.
+  </p>
+  <div class="hero-botoes">
+    <a class="btn" href="{% url 'cyberpunk:contrato_lista' %}">Ver contratos abertos</a>
+    {% if not user.is_authenticated %}
+      <a class="btn btn-fantasma" href="{% url 'cyberpunk:cadastro' %}">Entrar na rede</a>
+    {% endif %}
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat"><strong>{{ total_abertos }}</strong><span>Contratos abertos</span></div>
+  <div class="stat"><strong>{{ total_concluidos }}</strong><span>Missões concluídas</span></div>
+  <div class="stat"><strong>{{ total_mercenarios }}</strong><span>Mercenários na rede</span></div>
+</section>
+
+<section>
+  <h2 class="secao"><span class="kanji">高額</span> Maiores recompensas abertas</h2>
+  {% if destaques %}
+    <div class="grid">
+      {% for contrato in destaques %}
+        {% include "cyberpunk/_card_contrato.html" %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="vazio">Nenhum contrato aberto no momento.</p>
+  {% endif %}
+</section>
+{% endblock %}
