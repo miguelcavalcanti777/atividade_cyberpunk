@@ -88,6 +88,7 @@ if DATABASE_ENGINE == "postgresql":
             "PASSWORD": os.getenv("DB_PASSWORD", ""),
             "HOST": os.environ["DB_HOST"],
             "PORT": os.getenv("DB_PORT", "5432"),
+            "OPTIONS": {"sslmode": os.getenv("DB_SSLMODE", "require")},
         }
     }
 elif DATABASE_ENGINE == "sqlite":
