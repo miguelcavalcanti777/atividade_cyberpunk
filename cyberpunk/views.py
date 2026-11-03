@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .forms import CadastroForm, ContratoForm, PersonagemForm
-from .models import Contrato, Mercenario, Personagem
+from .models import Contrato, Mercenario, Modalidade, Personagem
 
 
 def apenas(tipo):
@@ -72,6 +72,12 @@ def contrato_detalhe(request, pk):
 def personagem_lista(request):
     personagens = Personagem.objects.all()
     return render(request, "cyberpunk/personagem_lista.html", {"personagens": personagens})
+
+
+def modalidade_lista(request):
+    """Extra da Atividade 2: lê a tabela `modalidade` (Atividade 1, criada por SQL)."""
+    modalidades = Modalidade.objects.all()
+    return render(request, "cyberpunk/modalidade_lista.html", {"modalidades": modalidades})
 
 
 def cadastro(request):

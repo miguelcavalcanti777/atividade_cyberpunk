@@ -1,0 +1,22 @@
+{% extends "cyberpunk/base.html" %}
+
+{% block titulo %}Modalidades{% endblock %}
+
+{% block conteudo %}
+<h1 class="secao"><span class="kanji">表</span> Modalidades</h1>
+<p class="aviso">Tabela da Atividade 1, criada por SQL e lida direto do servidor (model com <code>managed = False</code>).</p>
+
+{% if modalidades %}
+  <div class="grid">
+    {% for m in modalidades %}
+      <article class="card">
+        <h3 class="card-titulo">{{ m.nome }}</h3>
+        <p>Alunos: {{ m.alunos }}</p>
+        <p class="muted">Início: {{ m.data_inicio|date:"d/m/Y" }} · {% if m.ativa %}Ativa{% else %}Inativa{% endif %}</p>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="vazio">Nenhuma modalidade cadastrada.</p>
+{% endif %}
+{% endblock %}

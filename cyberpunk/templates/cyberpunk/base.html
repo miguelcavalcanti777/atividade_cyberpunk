@@ -19,6 +19,7 @@
     <nav class="menu">
       <a href="{% url 'cyberpunk:contrato_lista' %}">Contratos</a>
       <a href="{% url 'cyberpunk:personagem_lista' %}">Alvos</a>
+      <a href="{% url 'cyberpunk:modalidade_lista' %}">Modalidades</a>
       {% if user.is_authenticated %}
         <a href="{% url 'cyberpunk:meus_contratos' %}">Meus contratos</a>
         {% if user.cliente %}

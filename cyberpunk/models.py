@@ -114,3 +114,25 @@ class Contrato(models.Model):
 
     def __str__(self):
         return f"{self.titulo} [{self.get_status_display()}]"
+
+
+class Modalidade(models.Model):
+    """Tabela da Atividade 1, criada por SQL (sem model). Gerada com `inspectdb`.
+
+    managed = False: o Django NÃO cria, altera nem apaga esta tabela no migrate;
+    ela já existe no banco do servidor e aqui só é lida.
+    """
+
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=100, blank=True, null=True)
+    alunos = models.IntegerField(blank=True, null=True)
+    data_inicio = models.DateField(blank=True, null=True)
+    ativa = models.BooleanField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = "modalidade"
+        ordering = ["nome", "id"]
+
+    def __str__(self):
+        return self.nome or f"Modalidade {self.pk}"

@@ -18,6 +18,8 @@ urlpatterns = [
     # personagens (alvos fictícios)
     path("personagens/", views.personagem_lista, name="personagem_lista"),
     path("personagens/novo/", views.personagem_criar, name="personagem_criar"),
+    # tabela da Atividade 1 (managed = False)
+    path("modalidades/", views.modalidade_lista, name="modalidade_lista"),
     # contas
     path("cadastro/", views.cadastro, name="cadastro"),
     path(
